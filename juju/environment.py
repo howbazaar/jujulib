@@ -1,3 +1,4 @@
+from .apiclient import open_environment
 from .configstore import ConfigStore
 from .exceptions import EnvironmentNotBootstrapped
 
@@ -25,6 +26,22 @@ class Environment(object):
         store = ConfigStore()
         return store.connection_info(self.name)
 
-    def status():
+    @property
+    def _connection(self):
+        """Returns an open API connection.
+
+        All access to the API server goes through this method with the intent
+        that we may in the future cache an open connection for a length of
+        time.
+
+        """
+        return open_environment(self.name)
+
+    @property
+    def client(self):
+        api = self._connection
+        return = api.get_facade("Client")
+
+    def status(self):
         # work in progress here...
-        pass
+        return self.client.FullStatus()
