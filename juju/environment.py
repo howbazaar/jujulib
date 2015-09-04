@@ -40,7 +40,7 @@ class Environment(object):
     @property
     def client(self):
         api = self._connection
-        return = api.get_facade("Client")
+        return api.get_facade("Client")
 
     def status(self):
         # work in progress here...
