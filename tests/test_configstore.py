@@ -1,18 +1,15 @@
 import copy
 import mock
 import os
-import shutil
-import tempfile
-import unittest
 import yaml
 
 from juju import configstore
 from juju.exceptions import EnvironmentNotBootstrapped
 
-from . import environment
+from . import environment, testcase
 
 
-class TestConfigStore(unittest.TestCase):
+class TestConfigStore(testcase.TestCase):
 
     @mock.patch.dict(os.environ, JUJU_HOME='/test/juju/home')
     def test_configstore_default_uses_juju_home(self):
@@ -79,9 +76,3 @@ class TestConfigStore(unittest.TestCase):
             store = configstore.ConfigStore()
             env = store.connection_info('test-env')
             self.assertEqual(env, content)
-
-    def mkdir(self):
-        d = tempfile.mkdtemp()
-        self.addCleanup(shutil.rmtree, d)
-        return d
-
